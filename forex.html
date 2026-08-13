@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forex — Republik Trader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- NAVBAR -->
+<header class="nav">
+  <div class="nav-row wrap" style="padding-left:0;padding-right:0;">
+    <a href="index.html" class="brand">
+      <img src="assets/logo_full.png" alt="Republik Trader" class="brand-logo-full">
+    </a>
+    <nav class="market-links">
+      <a href="saham.html">Saham</a>
+      <a href="forex.html" class="active">Forex</a>
+      <a href="kripto.html">Kripto</a>
+      <a href="analisis.html">Analisis</a>
+      <a href="edukasi.html">Edukasi</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="search-btn" aria-label="Cari berita">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Cari</span>
+      </button>
+      <button class="btn-primary">Pasang Alert</button>
+      <button class="burger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- CATEGORY HEADER -->
+<section class="wrap category-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Beranda</a><span class="sep">/</span><span class="current">Forex</span>
+  </div>
+  <div class="category-hero-top">
+    <div>
+      <h1 class="category-title">Forex</h1>
+      <p class="category-desc">Pergerakan rupiah, kebijakan bank sentral, dan data ekonomi global yang menggerakkan pasangan mata uang setiap sesi.</p>
+    </div>
+    <div class="category-stats">
+      <div class="snap-card sm">
+        <div>
+          <div class="snap-label">USD/IDR</div>
+          <div class="snap-price mono">16.185</div>
+        </div>
+        <div class="snap-change arrow-down">▼ -0,21%</div>
+      </div>
+      <div class="snap-card sm">
+        <div>
+          <div class="snap-label">EUR/USD</div>
+          <div class="snap-price mono">1,0842</div>
+        </div>
+        <div class="snap-change arrow-down">▼ -0,08%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="wrap section">
+  <div class="main-grid">
+    <div>
+
+      <!-- FILTER CHIPS -->
+      <div class="chip-row">
+        <button class="chip active">Semua</button>
+        <button class="chip">Bank Sentral</button>
+        <button class="chip">Data Ekonomi</button>
+        <button class="chip">Rupiah</button>
+        <button class="chip">Analisis Teknikal</button>
+        <button class="chip">Sentimen Pasar</button>
+      </div>
+
+      <!-- FEATURED ARTICLE -->
+      <a href="#" class="featured-card">
+        <div class="featured-thumb"><span class="tag tag-forex">Forex</span></div>
+        <div class="featured-body">
+          <h2 class="featured-title">Yen Melemah ke Level Terendah 3 Bulan, BOJ Diminta Turun Tangan</h2>
+          <p class="featured-dek">Pelemahan yen berlanjut usai bank sentral Jepang memberi sinyal akan menahan suku bunga lebih lama, membuka ruang pelebaran selisih imbal hasil dengan dolar AS.</p>
+          <div class="card-meta"><span>Deni Rachman</span><span>·</span><span>1 jam lalu</span></div>
+        </div>
+      </a>
+
+      <!-- ARTICLE GRID -->
+      <div class="news-grid">
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Bank Sentral</span></div>
+          <div class="card-body">
+            <h3 class="card-title">The Fed Beri Sinyal Penurunan Suku Bunga Lebih Cepat dari Perkiraan</h3>
+            <div class="card-meta"><span>Deni Rachman</span><span>·</span><span>3 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Rupiah</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Rupiah Ditutup Melemah, Investor Tunggu Rilis Data Inflasi AS</h3>
+            <div class="card-meta"><span>Deni Rachman</span><span>·</span><span>5 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Data Ekonomi</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Data Tenaga Kerja AS Lebih Kuat dari Ekspektasi, Dolar Menguat</h3>
+            <div class="card-meta"><span>Sinta Wulandari</span><span>·</span><span>7 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Analisis Teknikal</span></div>
+          <div class="card-body">
+            <h3 class="card-title">GBP/USD Terjebak di Kisaran Sempit, Trader Tunggu Breakout</h3>
+            <div class="card-meta"><span>Tim Riset</span><span>·</span><span>9 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Sentimen Pasar</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Ketegangan Dagang Global Bikin Mata Uang Safe Haven Diburu</h3>
+            <div class="card-meta"><span>Sinta Wulandari</span><span>·</span><span>11 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Bank Sentral</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Bank Indonesia Tahan Suku Bunga, Fokus Jaga Stabilitas Rupiah</h3>
+            <div class="card-meta"><span>Deni Rachman</span><span>·</span><span>13 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Rupiah</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Arus Modal Asing Keluar Tekan Rupiah, BI Klaim Punya Amunisi Cukup</h3>
+            <div class="card-meta"><span>Sinta Wulandari</span><span>·</span><span>1 hari lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Data Ekonomi</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Inflasi Zona Euro Melandai, Ekspektasi Pemangkasan Suku Bunga Naik</h3>
+            <div class="card-meta"><span>Tim Riset</span><span>·</span><span>1 hari lalu</span></div>
+          </div>
+        </article>
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination">
+        <button class="page-btn" aria-label="Halaman sebelumnya">‹</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">…</button>
+        <button class="page-btn">9</button>
+        <button class="page-btn" aria-label="Halaman berikutnya">›</button>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside>
+      <div class="side-block">
+        <h3>Pasangan Mata Uang</h3>
+        <table>
+          <thead><tr><th>Pair</th><th></th><th style="text-align:right;">Harga</th><th style="text-align:right;">Chg</th></tr></thead>
+          <tbody>
+            <tr><td><span class="sym">USD/IDR</span><span class="sym-name">Dolar AS / Rupiah</span></td><td></td><td class="num">16.185</td><td class="num arrow-down">-0,21%</td></tr>
+            <tr><td><span class="sym">EUR/USD</span><span class="sym-name">Euro / Dolar AS</span></td><td></td><td class="num">1,0842</td><td class="num arrow-down">-0,08%</td></tr>
+            <tr><td><span class="sym">GBP/USD</span><span class="sym-name">Poundsterling / Dolar AS</span></td><td></td><td class="num">1,2715</td><td class="num arrow-up">+0,14%</td></tr>
+            <tr><td><span class="sym">USD/JPY</span><span class="sym-name">Dolar AS / Yen Jepang</span></td><td></td><td class="num">158,42</td><td class="num arrow-up">+0,52%</td></tr>
+            <tr><td><span class="sym">AUD/USD</span><span class="sym-name">Dolar Australia / Dolar AS</span></td><td></td><td class="num">0,6598</td><td class="num arrow-down">-0,11%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="side-block">
+        <h3>Kalender Ekonomi</h3>
+        <div class="cal-row"><span><span class="impact impact-high"></span>Suku Bunga BI</span><span class="cal-time">14:00</span></div>
+        <div class="cal-row"><span><span class="impact impact-high"></span>Data NFP AS</span><span class="cal-time">19:30</span></div>
+        <div class="cal-row"><span><span class="impact impact-med"></span>Inflasi Uni Eropa</span><span class="cal-time">16:00</span></div>
+        <div class="cal-row"><span><span class="impact impact-low"></span>Cadangan Minyak AS</span><span class="cal-time">21:30</span></div>
+      </div>
+
+      <div class="side-block">
+        <h3>Populer Minggu Ini</h3>
+        <div class="cal-row"><span>1. Kenapa Rupiah Terus Melemah?</span></div>
+        <div class="cal-row"><span>2. Panduan Baca Kalender Ekonomi buat Trader Baru</span></div>
+        <div class="cal-row"><span>3. Dampak Kebijakan The Fed ke Pasar Emerging Market</span></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- NEWSLETTER CTA -->
+<div class="wrap" style="padding-bottom:56px;">
+  <div class="cta">
+    <div>
+      <h2>Jangan Lewatkan Pergerakan Rupiah</h2>
+      <p>Ringkasan sesi, rilis data ekonomi, dan sinyal teknikal pasangan mata uang — langsung ke email Anda setiap pagi sebelum bel pembukaan.</p>
+    </div>
+    <form class="cta-form" onsubmit="return false;">
+      <input type="email" placeholder="Alamat email" required>
+      <button class="btn-primary" type="submit">Berlangganan</button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand" style="margin-bottom:12px;">
+          <img src="assets/logo_full.png" alt="Republik Trader" class="brand-logo-full" style="height:24px;">
+        </div>
+        <p>Portal berita pasar untuk trader Indonesia — saham, forex, dan kripto, disajikan tanpa basa-basi.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Kanal</h4>
+        <a href="saham.html">Saham</a><a href="forex.html">Forex</a><a href="kripto.html">Kripto</a><a href="analisis.html">Analisis</a><a href="edukasi.html">Edukasi</a>
+      </div>
+      <div class="footer-col">
+        <h4>Perusahaan</h4>
+        <a href="#">Tentang Kami</a><a href="#">Redaksi</a><a href="#">Karier</a><a href="#">Kontak</a>
+      </div>
+      <div class="footer-col">
+        <h4>Ikuti Kami</h4>
+        <a href="#">X (Twitter)</a><a href="#">Instagram</a><a href="#">Telegram</a><a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <strong>Disclaimer Risiko:</strong> Trading saham, forex, dan aset kripto mengandung risiko tinggi dan dapat mengakibatkan kerugian melebihi modal awal. Seluruh konten di Republik Trader bersifat informatif dan bukan merupakan rekomendasi atau saran investasi. Lakukan riset mandiri sebelum mengambil keputusan finansial.
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Republik Trader. Seluruh hak cipta dilindungi.</span>
+      <span>republiktrader.com</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+
+<script>
+  // Chip filter (visual only in this mockup)
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+  // Pagination click state (visual only)
+  document.querySelectorAll('.page-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.textContent === '‹' || btn.textContent === '›' || btn.textContent === '…') return;
+      document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
