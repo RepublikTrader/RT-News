@@ -99,8 +99,9 @@
     display:flex;align-items:center;justify-content:space-between;
     padding:14px 24px;gap:24px;
   }
-  .brand{display:flex;align-items:center;gap:10px;}
-  .brand img{height:34px;width:34px;border-radius:6px;}
+  .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .brand img{height:34px;width:34px;border-radius:6px;flex-shrink:0;object-fit:contain;}
+  .brand-logo-full{height:26px;width:auto !important;border-radius:0 !important;}
   .brand-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;letter-spacing:0.02em;text-transform:uppercase;}
   .brand-text span{color:var(--accent);}
 
@@ -113,7 +114,7 @@
   }
   nav.market-links a:hover{color:var(--fg);border-color:var(--accent);}
 
-  .nav-actions{display:flex;align-items:center;gap:14px;}
+  .nav-actions{display:flex;align-items:center;gap:14px;flex-shrink:0;}
   .search-btn{
     display:flex;align-items:center;gap:6px;
     background:var(--surface-2);border:1px solid var(--line);
@@ -299,8 +300,7 @@
 <header class="nav">
   <div class="nav-row wrap" style="padding-left:0;padding-right:0;">
     <div class="brand">
-      <img src="assets/logo.png" alt="Republik Trader">
-      <div class="brand-text">Republik<span>Trader</span></div>
+      <img src="assets/logo_full.png" alt="Republik Trader" class="brand-logo-full">
     </div>
     <nav class="market-links">
       <a href="#">Saham</a>
@@ -504,8 +504,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="brand" style="margin-bottom:12px;">
-          <img src="assets/logo.png" alt="Republik Trader" style="height:30px;width:30px;">
-          <div class="brand-text">Republik<span>Trader</span></div>
+          <img src="assets/logo_full.png" alt="Republik Trader" class="brand-logo-full" style="height:24px;">
         </div>
         <p>Portal berita pasar untuk trader Indonesia — saham, forex, dan kripto, disajikan tanpa basa-basi.</p>
       </div>
