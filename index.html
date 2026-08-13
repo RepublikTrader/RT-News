@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Republik Trader — Berita Pasar Real-Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #171516;
+    --surface: #201d1e;
+    --surface-2: #292627;
+    --line: #383435;
+    --fg: #f2efe9;
+    --fg-dim: #a8a3a0;
+    --fg-mute: #726d6a;
+    --accent: #e8431f;
+    --accent-dim: #7a2a17;
+    --up: #3ecf8e;
+    --down: #ff5b54;
+    --tag-saham: #5b8ac9;
+    --tag-forex: #52b788;
+    --tag-kripto: #e8431f;
+    --tag-analisis: #b48ae0;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  h1,h2,h3,.display{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:1.02;
+    margin:0;
+  }
+
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+  /* ===== Skip link / focus ===== */
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  /* ===== Ticker (signature element) ===== */
+  .ticker-bar{
+    background:#0f0d0e;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+  }
+  .ticker-track{
+    display:inline-flex;
+    animation: scroll-left 38s linear infinite;
+    padding:9px 0;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ticker-track{animation:none;}
+  }
+  .ticker-item{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:0 22px;
+    border-right:1px solid var(--line);
+    font-size:12.5px;
+  }
+  .ticker-item .name{color:var(--fg-dim);font-family:'Inter',sans-serif;font-weight:600;letter-spacing:0.03em;}
+  .ticker-item .price{font-weight:600;}
+  .arrow-up{color:var(--up);} .arrow-down{color:var(--down);}
+  @keyframes scroll-left{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ===== Navbar ===== */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(23,21,22,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 24px;gap:24px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand img{height:34px;width:34px;border-radius:6px;}
+  .brand-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;letter-spacing:0.02em;text-transform:uppercase;}
+  .brand-text span{color:var(--accent);}
+
+  nav.market-links{display:flex;gap:28px;}
+  nav.market-links a{
+    font-size:13.5px;font-weight:600;color:var(--fg-dim);
+    text-transform:uppercase;letter-spacing:0.06em;
+    padding:6px 0;border-bottom:2px solid transparent;
+    transition:color .15s, border-color .15s;
+  }
+  nav.market-links a:hover{color:var(--fg);border-color:var(--accent);}
+
+  .nav-actions{display:flex;align-items:center;gap:14px;}
+  .search-btn{
+    display:flex;align-items:center;gap:6px;
+    background:var(--surface-2);border:1px solid var(--line);
+    border-radius:7px;padding:7px 12px;color:var(--fg-mute);
+    font-size:13px;cursor:pointer;
+  }
+  .btn-primary{
+    background:var(--accent);color:#fff;border:none;
+    padding:9px 18px;border-radius:7px;font-weight:700;
+    font-size:13px;text-transform:uppercase;letter-spacing:0.04em;
+    cursor:pointer;
+  }
+  .burger{display:none;background:none;border:none;color:var(--fg);cursor:pointer;}
+
+  /* ===== Hero / Market snapshot ===== */
+  .hero{padding:44px 0 36px;border-bottom:1px solid var(--line);}
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:start;}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;
+    color:var(--accent);letter-spacing:0.08em;margin-bottom:14px;
+  }
+  .eyebrow::before{content:'';width:7px;height:7px;background:var(--accent);border-radius:50%;box-shadow:0 0 0 3px var(--accent-dim);}
+
+  .headline{font-size:46px;margin-bottom:16px;}
+  .headline .accent-word{color:var(--accent);}
+  .dek{color:var(--fg-dim);font-size:16.5px;line-height:1.55;max-width:520px;margin-bottom:22px;}
+  .byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--fg-mute);}
+  .byline .dot{width:4px;height:4px;background:var(--fg-mute);border-radius:50%;}
+
+  .snapshot-col{display:flex;flex-direction:column;gap:12px;}
+  .snap-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .snap-label{font-size:12px;color:var(--fg-mute);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:4px;}
+  .snap-price{font-family:'IBM Plex Mono',monospace;font-size:23px;font-weight:600;}
+  .snap-change{font-family:'IBM Plex Mono',monospace;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:4px;justify-content:flex-end;}
+  .snap-mini{width:70px;height:32px;}
+
+  /* ===== Section heading pattern ===== */
+  .section{padding:48px 0;}
+  .section-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:26px;border-bottom:1px solid var(--line);padding-bottom:14px;
+    gap:20px;flex-wrap:wrap;
+  }
+  .section-title{font-size:26px;}
+  .tabs{display:flex;gap:22px;}
+  .tab{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;text-transform:uppercase;
+    letter-spacing:0.05em;color:var(--fg-mute);cursor:pointer;padding-bottom:4px;
+    border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;
+  }
+  .tab.active{color:var(--fg);border-color:var(--accent);}
+  .see-all{font-size:13px;color:var(--fg-dim);font-weight:600;display:inline-flex;align-items:center;gap:4px;}
+  .see-all:hover{color:var(--accent);}
+
+  /* ===== Main layout with sidebar ===== */
+  .main-grid{display:grid;grid-template-columns:1fr 320px;gap:44px;}
+
+  .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s, transform .15s;
+  }
+  .card:hover{border-color:var(--fg-mute);transform:translateY(-2px);}
+  .card-thumb{
+    height:150px;background:linear-gradient(135deg,var(--surface-2),#171516);
+    position:relative;display:flex;align-items:flex-end;padding:12px;
+  }
+  .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.05em;
+    padding:4px 8px;border-radius:4px;color:#0f0d0e;
+  }
+  .tag-saham{background:var(--tag-saham);}
+  .tag-forex{background:var(--tag-forex);}
+  .tag-kripto{background:var(--tag-kripto);color:#fff;}
+  .tag-analisis{background:var(--tag-analisis);}
+
+  .card-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .card-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;text-transform:none;line-height:1.2;}
+  .card-meta{font-size:12px;color:var(--fg-mute);margin-top:auto;display:flex;gap:8px;align-items:center;}
+
+  /* ===== Market movers table ===== */
+  .movers-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .movers-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;}
+  .movers-card h3{font-size:16px;margin-bottom:14px;letter-spacing:0.04em;}
+  table{width:100%;border-collapse:collapse;}
+  table th{
+    text-align:left;font-size:11px;color:var(--fg-mute);text-transform:uppercase;
+    letter-spacing:0.06em;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--line);
+  }
+  table td{padding:10px 0;border-bottom:1px solid var(--surface-2);font-size:13.5px;}
+  table tr:last-child td{border-bottom:none;}
+  .sym{font-weight:700;font-family:'IBM Plex Mono',monospace;}
+  .sym-name{color:var(--fg-mute);font-size:11.5px;display:block;}
+  td.num{text-align:right;font-family:'IBM Plex Mono',monospace;}
+
+  /* ===== Sidebar ===== */
+  .side-block{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:20px;margin-bottom:22px;
+  }
+  .side-block h3{font-size:15px;margin-bottom:16px;letter-spacing:0.04em;}
+  .cal-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--surface-2);font-size:13px;}
+  .cal-row:last-child{border-bottom:none;}
+  .cal-time{font-family:'IBM Plex Mono',monospace;color:var(--fg-mute);font-size:11.5px;}
+  .impact{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px;}
+  .impact-high{background:var(--down);}
+  .impact-med{background:#e8b93f;}
+  .impact-low{background:var(--fg-mute);}
+
+  .watch-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--surface-2);}
+  .watch-row:last-child{border-bottom:none;}
+  .watch-row .name{font-size:13px;font-weight:600;}
+  .watch-row .price{font-family:'IBM Plex Mono',monospace;font-size:12.5px;}
+
+  /* ===== Newsletter CTA ===== */
+  .cta{
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:40px 44px;display:flex;align-items:center;justify-content:space-between;gap:32px;
+    position:relative;overflow:hidden;
+  }
+  .cta::after{
+    content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;
+    background:radial-gradient(circle,var(--accent) 0%,transparent 70%);opacity:0.18;
+  }
+  .cta h2{font-size:28px;margin-bottom:8px;}
+  .cta p{color:var(--fg-dim);font-size:14.5px;max-width:420px;}
+  .cta-form{display:flex;gap:10px;flex-shrink:0;}
+  .cta-form input{
+    background:var(--surface-2);border:1px solid var(--line);border-radius:7px;
+    padding:12px 14px;color:var(--fg);font-size:13.5px;width:230px;font-family:'Inter',sans-serif;
+  }
+  .cta-form input::placeholder{color:var(--fg-mute);}
+
+  /* ===== Footer ===== */
+  footer{border-top:1px solid var(--line);padding:44px 0 28px;margin-top:20px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;margin-bottom:32px;}
+  .footer-brand .brand-text{margin-bottom:10px;}
+  .footer-brand p{color:var(--fg-mute);font-size:13px;line-height:1.6;max-width:280px;}
+  .footer-col h4{font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--fg-mute);margin-bottom:14px;font-weight:600;}
+  .footer-col a{display:block;font-size:13.5px;color:var(--fg-dim);margin-bottom:10px;}
+  .footer-col a:hover{color:var(--accent);}
+  .disclaimer{
+    border-top:1px solid var(--line);padding-top:22px;
+    font-size:11.5px;color:var(--fg-mute);line-height:1.6;
+  }
+  .footer-bottom{display:flex;justify-content:space-between;margin-top:18px;font-size:12px;color:var(--fg-mute);flex-wrap:wrap;gap:10px;}
+
+  /* ===== Responsive ===== */
+  @media (max-width:980px){
+    .hero-grid{grid-template-columns:1fr;}
+    .main-grid{grid-template-columns:1fr;}
+    .news-grid{grid-template-columns:repeat(2,1fr);}
+    .movers-grid{grid-template-columns:1fr;}
+    nav.market-links{display:none;}
+    .burger{display:block;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:640px){
+    .headline{font-size:32px;}
+    .news-grid{grid-template-columns:1fr;}
+    .cta{flex-direction:column;align-items:flex-start;}
+    .cta-form{width:100%;}
+    .cta-form input{width:100%;}
+    .footer-grid{grid-template-columns:1fr;}
+    .search-btn span{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- NAVBAR -->
+<header class="nav">
+  <div class="nav-row wrap" style="padding-left:0;padding-right:0;">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Republik Trader">
+      <div class="brand-text">Republik<span>Trader</span></div>
+    </div>
+    <nav class="market-links">
+      <a href="#">Saham</a>
+      <a href="#">Forex</a>
+      <a href="#">Kripto</a>
+      <a href="#">Analisis</a>
+      <a href="#">Edukasi</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="search-btn" aria-label="Cari berita">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Cari</span>
+      </button>
+      <button class="btn-primary">Pasang Alert</button>
+      <button class="burger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">PASAR BUKA · SESI SORE</div>
+      <h1 class="headline">Rupiah Tertekan, IHSG Justru <span class="accent-word">Cetak Rekor</span> Baru</h1>
+      <p class="dek">Investor asing kembali masuk ke saham perbankan besar sementara pasar mencermati sinyal suku bunga The Fed pekan depan. Berikut yang perlu Anda ketahui sebelum sesi ditutup.</p>
+      <div class="byline">
+        <span>Oleh Redaksi Pasar</span><span class="dot"></span><span>12 menit lalu</span><span class="dot"></span><span>6 min read</span>
+      </div>
+    </div>
+
+    <div class="snapshot-col">
+      <div class="snap-card">
+        <div>
+          <div class="snap-label">IHSG</div>
+          <div class="snap-price mono">7.412,58</div>
+        </div>
+        <div class="snap-change arrow-up">▲ +0,84%</div>
+      </div>
+      <div class="snap-card">
+        <div>
+          <div class="snap-label">USD/IDR</div>
+          <div class="snap-price mono">16.185</div>
+        </div>
+        <div class="snap-change arrow-down">▼ -0,21%</div>
+      </div>
+      <div class="snap-card">
+        <div>
+          <div class="snap-label">BTC/IDR</div>
+          <div class="snap-price mono">1,71 M</div>
+        </div>
+        <div class="snap-change arrow-up">▲ +2,37%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="wrap section">
+  <div class="main-grid">
+    <div>
+
+      <!-- NEWS GRID -->
+      <div class="section-head">
+        <h2 class="section-title">Berita Terbaru</h2>
+        <div class="tabs">
+          <button class="tab active">Semua</button>
+          <button class="tab">Saham</button>
+          <button class="tab">Forex</button>
+          <button class="tab">Kripto</button>
+          <button class="tab">Populer</button>
+        </div>
+      </div>
+
+      <div class="news-grid">
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-saham">Saham</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Emiten Bank Digital Bagikan Dividen Interim, Investor Ritel Bersorak</h3>
+            <div class="card-meta"><span>Ayu Prasetya</span><span>·</span><span>28 menit lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-forex">Forex</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Yen Melemah ke Level Terendah 3 Bulan, BOJ Diminta Turun Tangan</h3>
+            <div class="card-meta"><span>Deni Rachman</span><span>·</span><span>1 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-kripto">Kripto</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Ethereum Uji Resistance Kunci, Analis: Ini Level yang Harus Ditembus</h3>
+            <div class="card-meta"><span>Fajar Nugroho</span><span>·</span><span>2 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-analisis">Analisis</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Membaca Arah IHSG Semester II: Tiga Sektor yang Layak Dicermati</h3>
+            <div class="card-meta"><span>Tim Riset</span><span>·</span><span>3 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-saham">Saham</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Rights Issue Emiten Tambang Oversubscribed, Saham Melesat 6%</h3>
+            <div class="card-meta"><span>Ayu Prasetya</span><span>·</span><span>4 jam lalu</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-thumb"><span class="tag tag-kripto">Kripto</span></div>
+          <div class="card-body">
+            <h3 class="card-title">Regulator Terbitkan Aturan Baru Perdagangan Aset Kripto, Ini Poin Pentingnya</h3>
+            <div class="card-meta"><span>Fajar Nugroho</span><span>·</span><span>5 jam lalu</span></div>
+          </div>
+        </article>
+      </div>
+
+      <!-- MARKET MOVERS -->
+      <div class="section-head" style="margin-top:48px;">
+        <h2 class="section-title">Market Movers</h2>
+        <a href="#" class="see-all">Lihat semua →</a>
+      </div>
+      <div class="movers-grid">
+        <div class="movers-card">
+          <h3>Top Gainers · Saham</h3>
+          <table>
+            <thead><tr><th>Simbol</th><th></th><th style="text-align:right;">Harga</th><th style="text-align:right;">Chg</th></tr></thead>
+            <tbody>
+              <tr><td><span class="sym">BBRI</span><span class="sym-name">Bank Rakyat Indonesia</span></td><td></td><td class="num">5.925</td><td class="num arrow-up">+4,2%</td></tr>
+              <tr><td><span class="sym">ANTM</span><span class="sym-name">Aneka Tambang</span></td><td></td><td class="num">1.815</td><td class="num arrow-up">+3,6%</td></tr>
+              <tr><td><span class="sym">TLKM</span><span class="sym-name">Telkom Indonesia</span></td><td></td><td class="num">3.140</td><td class="num arrow-up">+2,9%</td></tr>
+              <tr><td><span class="sym">ASII</span><span class="sym-name">Astra International</span></td><td></td><td class="num">5.480</td><td class="num arrow-up">+2,1%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="movers-card">
+          <h3>Top Movers · Kripto</h3>
+          <table>
+            <thead><tr><th>Simbol</th><th></th><th style="text-align:right;">Harga</th><th style="text-align:right;">Chg</th></tr></thead>
+            <tbody>
+              <tr><td><span class="sym">SOL</span><span class="sym-name">Solana</span></td><td></td><td class="num">Rp3,42jt</td><td class="num arrow-up">+7,8%</td></tr>
+              <tr><td><span class="sym">BTC</span><span class="sym-name">Bitcoin</span></td><td></td><td class="num">Rp1,71M</td><td class="num arrow-up">+2,4%</td></tr>
+              <tr><td><span class="sym">ETH</span><span class="sym-name">Ethereum</span></td><td></td><td class="num">Rp58,9jt</td><td class="num arrow-down">-1,2%</td></tr>
+              <tr><td><span class="sym">XRP</span><span class="sym-name">Ripple</span></td><td></td><td class="num">Rp13.480</td><td class="num arrow-down">-0,6%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside>
+      <div class="side-block">
+        <h3>Kalender Ekonomi</h3>
+        <div class="cal-row"><span><span class="impact impact-high"></span>Suku Bunga BI</span><span class="cal-time">14:00</span></div>
+        <div class="cal-row"><span><span class="impact impact-high"></span>Data NFP AS</span><span class="cal-time">19:30</span></div>
+        <div class="cal-row"><span><span class="impact impact-med"></span>Inflasi Uni Eropa</span><span class="cal-time">16:00</span></div>
+        <div class="cal-row"><span><span class="impact impact-low"></span>Cadangan Minyak AS</span><span class="cal-time">21:30</span></div>
+      </div>
+
+      <div class="side-block">
+        <h3>Watchlist Populer</h3>
+        <div class="watch-row"><span class="name">EUR/USD</span><span class="price mono arrow-down">1,0842</span></div>
+        <div class="watch-row"><span class="name">Emas (XAU)</span><span class="price mono arrow-up">2.412,60</span></div>
+        <div class="watch-row"><span class="name">BBCA</span><span class="price mono arrow-up">10.150</span></div>
+        <div class="watch-row"><span class="name">DOGE</span><span class="price mono arrow-down">Rp2.180</span></div>
+      </div>
+
+      <div class="side-block">
+        <h3>Populer Minggu Ini</h3>
+        <div class="cal-row"><span>1. Kenapa Rupiah Terus Melemah?</span></div>
+        <div class="cal-row"><span>2. Panduan DCA untuk Trader Baru</span></div>
+        <div class="cal-row"><span>3. Emiten Bank Digital Rilis Laporan Q2</span></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- NEWSLETTER CTA -->
+<div class="wrap" style="padding-bottom:56px;">
+  <div class="cta">
+    <div>
+      <h2>Jangan Lewatkan Pergerakan Pasar</h2>
+      <p>Ringkasan pasar, sinyal teknikal, dan berita utama — langsung ke email Anda setiap pagi sebelum bel pembukaan.</p>
+    </div>
+    <form class="cta-form" onsubmit="return false;">
+      <input type="email" placeholder="Alamat email" required>
+      <button class="btn-primary" type="submit">Berlangganan</button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand" style="margin-bottom:12px;">
+          <img src="assets/logo.png" alt="Republik Trader" style="height:30px;width:30px;">
+          <div class="brand-text">Republik<span>Trader</span></div>
+        </div>
+        <p>Portal berita pasar untuk trader Indonesia — saham, forex, dan kripto, disajikan tanpa basa-basi.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Kanal</h4>
+        <a href="#">Saham</a><a href="#">Forex</a><a href="#">Kripto</a><a href="#">Analisis</a><a href="#">Edukasi</a>
+      </div>
+      <div class="footer-col">
+        <h4>Perusahaan</h4>
+        <a href="#">Tentang Kami</a><a href="#">Redaksi</a><a href="#">Karier</a><a href="#">Kontak</a>
+      </div>
+      <div class="footer-col">
+        <h4>Ikuti Kami</h4>
+        <a href="#">X (Twitter)</a><a href="#">Instagram</a><a href="#">Telegram</a><a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <strong>Disclaimer Risiko:</strong> Trading saham, forex, dan aset kripto mengandung risiko tinggi dan dapat mengakibatkan kerugian melebihi modal awal. Seluruh konten di Republik Trader bersifat informatif dan bukan merupakan rekomendasi atau saran investasi. Lakukan riset mandiri sebelum mengambil keputusan finansial.
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Republik Trader. Seluruh hak cipta dilindungi.</span>
+      <span>republiktrader.com</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Build ticker content twice for a seamless infinite loop
+  const items = [
+    {name:'IHSG', price:'7.412,58', chg:'+0,84%', up:true},
+    {name:'LQ45', price:'972,14', chg:'+0,61%', up:true},
+    {name:'USD/IDR', price:'16.185', chg:'-0,21%', up:false},
+    {name:'EUR/USD', price:'1,0842', chg:'-0,08%', up:false},
+    {name:'BTC/IDR', price:'1,71 M', chg:'+2,37%', up:true},
+    {name:'ETH/IDR', price:'58,9 jt', chg:'-1,20%', up:false},
+    {name:'EMAS (XAU)', price:'2.412,60', chg:'+0,45%', up:true},
+    {name:'SOL/IDR', price:'3,42 jt', chg:'+7,80%', up:true},
+  ];
+  const track = document.getElementById('tickerTrack');
+  function renderSet(){
+    return items.map(i => `
+      <span class="ticker-item">
+        <span class="name">${i.name}</span>
+        <span class="price mono">${i.price}</span>
+        <span class="${i.up ? 'arrow-up' : 'arrow-down'} mono">${i.up ? '▲' : '▼'} ${i.chg}</span>
+      </span>`).join('');
+  }
+  track.innerHTML = renderSet() + renderSet();
+
+  // Tab filter (visual only in this mockup)
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
