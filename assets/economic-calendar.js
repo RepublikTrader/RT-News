@@ -18,7 +18,7 @@
  * ketentuan pricing-nya di finnhub.io/pricing.
  */
 
-const FINNHUB_TOKEN = 'da0phd1r01qh1noopno0da0phd1r01qh1noopnog';
+const FINNHUB_TOKEN = da0pmfhr01qh1nooqel0da0pmfhr01qh1nooqelg;
 
 // Negara yang relevan untuk ditampilkan (biar nggak kebanjiran event kecil)
 const RELEVANT_COUNTRIES = ['US', 'ID', 'EU', 'JP', 'GB', 'CN'];
