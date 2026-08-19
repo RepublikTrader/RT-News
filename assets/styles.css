@@ -338,3 +338,11 @@
   .featured-thumb{min-height:140px;}
   .category-title{font-size:32px;}
 }
+
+/* ===== Third-party widget: economic calendar copyright link ===== */
+.ecw-copyright{
+  font-size:10.5px;color:var(--fg-mute);text-align:right;
+  margin-top:6px;font-family:'Inter',sans-serif;
+}
+.ecw-copyright a{color:var(--fg-mute);}
+.ecw-copyright a:hover{color:var(--accent);}
