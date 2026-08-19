@@ -15,7 +15,7 @@
  * keperluan trading presisi tinggi.
  */
 
-const EXCHANGE_RATE_API_KEY = 'GANTI_DENGAN_API_KEY_KAMU';
+const EXCHANGE_RATE_API_KEY = 'a260ba32a22baa3d823ee68f';
 const EXCHANGE_RATE_URL = `https://v6.exchangerate-api.com/v6/${EXCHANGE_RATE_API_KEY}/latest/USD`;
 const STORAGE_KEY_PREV_RATE = 'rt_usdidr_prev_rate';
 
